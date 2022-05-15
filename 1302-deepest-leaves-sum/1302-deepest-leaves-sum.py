@@ -6,18 +6,14 @@
 #         self.right = right
 class Solution:
     def deepestLeavesSum(self, root: Optional[TreeNode]) -> int:
-        d = {}
-        level = 0
-        self.helper(root, d, level)
-        return d[max(d.keys())]
-        
-    def helper(self, root, d, level):
-        if root.right != None:
-            self.helper(root.right, d, level+1)
-        if root.left != None:
-            self.helper(root.left, d, level+1)
-        if level in d:
-            d[level] += root.val
-        else:
-            d[level] = root.val
-        
+        queue = [root]
+        while queue: # iterates through the layers
+            lastSum, newQueue = 0, list() # init sum to zero
+            while queue: # current layer's nodes
+                node = queue.pop(0)
+                lastSum += node.val # sum of the last layer is accumulated here
+                if any([node.left, node.right]): # build next layer
+                    if node.left: newQueue.append(node.left)
+                    if node.right: newQueue.append(node.right)
+            queue = newQueue # next layer
+        return lastSum
