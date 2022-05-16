@@ -1,42 +1,32 @@
 class Solution:
     def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
-        if grid[0][0] != 0 or grid[-1][-1] != 0:
+        n = len(grid)
+        steps = 1
+        if grid[0][0] == 1 or grid[n-1][n-1] == 1:
             return -1
-        
-        N = len(grid)
-        offsets = [(x,y) for x in range(-1,2) for y in range(-1,2)]
-        
-        q = deque()
-        q.append((0,0)) 
+        if len(grid) == 1:
+            return 1
         visited = {(0, 0)}
-        
-        
-        def get_neighbours(x,y):
+        offsets = [(x, y) for x in range(-1, 2) for y in range(-1, 2)]
+        def get_neighbors(x, y):
             for x_offset, y_offset in offsets:
-                new_row = x + x_offset
-                new_col = y + y_offset
+                new_x = x + x_offset
+                new_y = y + y_offset
+                if 0 <= new_x < n and 0 <= new_y < n and (new_x, new_y) not in visited and grid[new_x][new_y] == 0:
+                    yield (new_x, new_y)
                 
-                if 0 <= new_row < N and 0 <= new_col < N and grid[new_row][new_col] == 0 and (new_row, new_col) not in visited:
-                    yield (new_row, new_col)                                                
-            
-        
-        current_distance = 1 
-        
+        q = [(0,0)]
         while q:
-            length = len(q)
+            for _ in range(len(q)):
+                x,y = q.pop(0)
+                
+                if x==n-1 and y==n-1:
+                    return steps
+                
+                for neighbor in get_neighbors(x, y):
+                    q.append(neighbor)
+                    visited.add(neighbor)
+                    
+            steps += 1
             
-            # loop through all the cells at the same distance
-            for _ in range(length):
-                row, col = q.popleft()
-                
-                if row == N-1 and col==N-1: # reached target
-                    return current_distance
-                
-                # loop though all valid neignbours
-                for p in get_neighbours(row, col):
-                    visited.add(p)
-                    q.append(p)
-                                    
-            current_distance+=1 # update the level or distance from source
-        
-        return -1                
+        return -1
