@@ -14,28 +14,30 @@ class Solution:
             return None
         d = {}
         level = 0
-        self.helper(root, d, level)
+        queue = [root]
+        right_node = None
+        while queue:
+            for _ in range(len(queue)): # traverse nodes at current level
+                node = queue.pop(0)
+                
+                # code for set next
+                if node.right != None:
+                    node.right.next = right_node
+                    if node.left != None:
+                        node.left.next = node.right
+                        right_node = node.left
+                    else:
+                        right_node = node.right
+                elif node.left != None:
+                    node.left.next = right_node
+                    right_node = node.left
+                
+                # append queue
+                if node.right != None:
+                    queue.append(node.right)
+                if node.left != None:
+                    queue.append(node.left)
+            
+            right_node = None
+            
         return root
-    
-    def helper(self, root, d, level):
-        if root.left != None:
-            self.helper(root.left, d, level+1)
-        self.set_next(root, d, level)
-        if root.right != None:
-            self.helper(root.right, d, level+1)
-    
-    def set_next(self, root, d, level):
-        if root.left != None or root.right != None:
-            if root.left != None:
-                if level in d:
-                    d[level].next = root.left
-                if root.right != None:
-                    root.left.next = root.right
-                    d[level] = root.right                    
-                else:
-                    d[level] = root.left
-            else:
-                if root.right != None:
-                    if level in d:
-                        d[level].next = root.right
-                    d[level] = root.right
