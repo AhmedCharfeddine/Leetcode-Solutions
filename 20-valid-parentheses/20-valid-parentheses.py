@@ -1,33 +1,18 @@
 class Solution:
-    def equivalent(self, char):
-        if char == ')':
-            return '('
-        elif char == '}':
-            return '{'
-        elif char == ']':
-            return '['
-            
-        return '0'
-            
     def isValid(self, s: str) -> bool:
-        if len(s) % 2 != 0:
-            return False
-        
-        
-        
-            
+        mapping = {
+            ')': '(',
+            ']': '[',
+            '}': '{'
+        }
         stack = []
-        for char in s:
-            if char in ['{', '[', '(']:
-                stack.append(char)
-
-            elif char in ['}', ']', ')']:
-                if len(stack) == 0:
-                    return False
-                elif self.equivalent(char) != stack[-1]:
-                    return False
-                stack.pop(-1)
-
-        if len(stack) == 0:
-            return True
-        return False
+        for i in s:
+            if i not in mapping:
+                stack.append(i)
+            elif not stack:
+                return False
+            elif mapping[i] != stack.pop(-1):
+                return False
+        if stack:
+            return False
+        return True
