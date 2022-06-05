@@ -6,13 +6,13 @@
 #         self.right = right
 class Solution:
     def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
-        queue = deque([root])
+        stack = deque([root])
         s = set()
-        while queue:
-            node = queue.popleft()
+        while stack:
+            node = stack.pop()
             if node.val in s:
                 return True
             s.add(k-node.val)
-            if node.right:  queue.append(node.right)
-            if node.left:   queue.append(node.left)
+            if node.right:  stack.append(node.right)
+            if node.left:   stack.append(node.left)
         return False
