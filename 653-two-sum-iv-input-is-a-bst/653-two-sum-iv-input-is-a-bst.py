@@ -9,7 +9,7 @@ class Solution:
         queue = deque([root])
         s = set()
         while queue:
-            node = queue.pop()
+            node = queue.popleft()
             if node.val in s:
                 return True
             s.add(k-node.val)
