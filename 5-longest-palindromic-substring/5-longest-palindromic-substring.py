@@ -1,5 +1,6 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
+        # O(n²)
         res = ''
         res_len = 0
         
@@ -17,8 +18,6 @@ class Solution:
                 right += 1
             
             # even length
-            if i == len(s)-1:
-                break
             left, right = i, i+1
             is_palindrome = True
             while left >= 0 and right <= len(s)-1 and is_palindrome:
