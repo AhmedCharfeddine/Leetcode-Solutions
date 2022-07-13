@@ -11,8 +11,6 @@ class Solution:
         
         mid = inorder.index(preorder[0])
         node = TreeNode(inorder[mid])
-        if mid != 0:
-            node.left = self.buildTree(preorder[1:mid+1], inorder[:mid])
-        if mid != len(preorder) - 1:
-            node.right = self.buildTree(preorder[mid+1:], inorder[mid+1:])
+        node.left = self.buildTree(preorder[1:mid+1], inorder[:mid])
+        node.right = self.buildTree(preorder[mid+1:], inorder[mid+1:])
         return node
