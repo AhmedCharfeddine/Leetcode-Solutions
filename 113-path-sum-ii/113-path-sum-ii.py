@@ -9,10 +9,16 @@ class Solution:
         if not root:    return []
         res = []
         def helper(node, l, s):
+            l.append(node.val)
+            s += node.val
             if not node.right and not node.left:
-                if s+node.val == targetSum:
-                    res.append(l+[node.val])
-            if node.right:  helper(node.right, l+[node.val], s+node.val)
-            if node.left:   helper(node.left, l+[node.val], s+node.val)
+                if s == targetSum:
+                    res.append(l.copy())
+            if node.right:
+                helper(node.right, l, s)
+                l.pop(-1)
+            if node.left:
+                helper(node.left, l, s)
+                l.pop(-1)
         helper(root, [], 0)
         return res
