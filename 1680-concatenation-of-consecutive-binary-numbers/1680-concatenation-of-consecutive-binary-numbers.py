@@ -5,7 +5,9 @@ class Solution:
         bits = 2
         
         for i in range(2, n+1):
-            res <<= len(format(i,'b'))
+            res <<= bits
             res = int((res + i) % MOD)
-        
+            if i & (i+1) == 0:
+                bits += 1
+
         return res
