@@ -5,14 +5,16 @@
 #         self.next = next
 class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
-        if not head.next:   return None
         ptr1, ptr2 = head, head
         for _ in range(n):
             ptr2 = ptr2.next
-        if not ptr2:
+        
+        # corner case: n == length
+        if ptr2 is None:    
             return head.next
-        ptr2 = ptr2.next
-        while ptr2:
+        
+        # advance both pointers
+        while ptr2.next is not None:
             ptr1 = ptr1.next
             ptr2 = ptr2.next
         ptr1.next = ptr1.next.next
