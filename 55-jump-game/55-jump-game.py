@@ -1,9 +1,9 @@
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
         if len(nums) == 1:  return True
-        dp = [False] * len(nums)
-        dp[-1] = True
+        closest_finish = len(nums) - 1
         for i in range(len((nums))-2, -1, -1):
-            if True in dp[i+1:i+nums[i]+1]:
-                dp[i] = True
-        return dp[0]
+            reach = i + nums[i]
+            if reach >= closest_finish:  
+                closest_finish = i
+        return True if closest_finish == 0 else False
