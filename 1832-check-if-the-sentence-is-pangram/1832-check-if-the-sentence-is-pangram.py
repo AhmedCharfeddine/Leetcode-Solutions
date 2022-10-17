@@ -3,4 +3,6 @@ class Solution:
         uc = set()
         for i in sentence:
             uc.add(i)
-        return len(uc) == 26
+            if len(uc) == 26:
+                return True
+        return False
