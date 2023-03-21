@@ -4,7 +4,7 @@ class Solution:
         dp = [False] * len(nums)
         dp[-1] = True
         for i in range(len(nums)-2, -1, -1):
-            for j in range(min(len(nums)-1,i+nums[i]), i, -1):
+            for j in range(min(len(nums)-1, i+nums[i]), i, -1):
                 if dp[j]:
                     dp[i] = True
                     break
