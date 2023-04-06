@@ -19,13 +19,13 @@ class Solution:
                     is_island = True    # switch to False if border found
                     if i in [0, n-1] or j in [0, m-1]:  
                         is_island = False
-                    queue = deque([(i,j)])
-                    while queue:
-                        x,y = queue.popleft()
+                    stack = deque([(i,j)])
+                    while stack:
+                        x,y = stack.pop()
                         for x_neighbor,y_neighbor in get_neighbors(x,y):
                             if x_neighbor in [0,n-1] or y_neighbor in [0,m-1]:
                                 is_island = False
-                            queue.append((x_neighbor,y_neighbor))
+                            stack.append((x_neighbor,y_neighbor))
                         visited.add((x,y))
                     if is_island:   
                         res += 1
