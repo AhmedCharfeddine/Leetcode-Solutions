@@ -6,33 +6,38 @@
 #         self.right = right
 class Solution:
     def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
-        positions = {}
-        def recurse(node, pos=(0, 0)):
-            nonlocal positions
-            if pos in positions:
-                positions[pos] = sorted(positions[pos] + [node.val])
-            else:
-                positions[pos] = [node.val]
+        hm = {}
+        
+        def recurse(node, coordinates=(0,0)):
+            nonlocal hm
+            if node:
+                if coordinates not in hm:
+                    hm[coordinates] = [node.val]
+                else:
+                    hm[coordinates].append(node.val)
+                
+                row,col = coordinates
+                recurse(node.left, (row+1,col-1))
+                recurse(node.right, (row+1, col+1))
             
-            if node.left:
-                recurse(node.left, (pos[0]+1, pos[1]-1))
-            if node.right:
-                recurse(node.right, (pos[0]+1, pos[1]+1))
         
         recurse(root)
         
-        # group positions by their columns
         cols = {}
-        for position in positions:
-            if position[1] not in cols:
-                cols[position[1]] = [(positions[position], position[0])]
+        for coordinates, values in hm.items():
+            row, col = coordinates
+            if col in cols:
+                cols[col].append((values, row))
             else:
-                cols[position[1]].append((positions[position], position[0]))
-            
+                cols[col] = [(values, row)]
+        
         res = []
         for col in sorted(cols.keys()):
-            res.append([])
-            for item in sorted(cols[col], key=lambda col: col[1]):
-                res[-1].extend(item[0])
-                
+            col_value = cols[col]
+            col_value.sort(key=lambda item: item[1])
+            new_row = []
+            for item in col_value:
+                new_row.extend(sorted(item[0]))
+            res.append(new_row)
+            
         return res
